@@ -1,0 +1,37 @@
+public class Solution {
+	public static class GraphNode {
+		int val;
+		List<GraphNode> neighbors;
+		boolean visited;
+		public GraphNode(int v) {
+			val = v;
+			visited = false;
+			children = new ArrayList<GraphNode>();
+		}
+	}
+	public boolean hasRoute(GraphNode a, GraphNode b) {
+		Stack<GraphNode> stack = new Stack<GraphNode>();
+		if(a == null || b == null) return false;
+		stack.push(a);
+		while(!stack.isEmpty()) {
+			GraphNode node = stack.peek();
+			List<GraphNode> list = a.neighbors;
+			if(list.isEmpty()) {
+				stack.pop();
+				node.visited = true;
+			}
+			boolean allVisited = true;
+			for(GraphNode n : list) {
+				if(!n.visited) {
+					allVisited = false;
+					if(n == b) return true;
+					stack.push(n);
+				}
+			}
+			if(allVisited) {
+				stack.pop();
+				node.visited = true;
+			}
+		}
+	}
+}
